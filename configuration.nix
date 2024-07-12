@@ -11,6 +11,13 @@
 
   ];
 
+  environment.sessionVariables = {
+      # define flake directory for nh (from vimjoyer vid)
+      FLAKE = "/etc/nixos";
+    };
+
+  # Enable the Flakes feature and the accompanying new nix command-line tool
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -85,7 +92,7 @@
     _1password-gui
     nh
     nix-output-monitor
-    xsel
+    wl-clipboard-rs
     git
     btop
 
