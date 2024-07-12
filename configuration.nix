@@ -92,7 +92,7 @@
     _1password-gui
     nh
     nix-output-monitor
-    wl-clipboard-rs
+    xsel
     git
     btop
 
@@ -100,6 +100,8 @@
     jellyfin-web
     jellyfin-ffmpeg
   ];
+
+  environment.variables.EDITOR = "helix";
 
   services.jellyfin = {
     enable = true;
@@ -122,6 +124,7 @@
     enable = true;
     settings = {
       PermitRootLogin = "no";
+      X11Forwarding = true;
     };
   };
 
