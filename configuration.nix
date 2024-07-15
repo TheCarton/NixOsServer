@@ -5,19 +5,22 @@
 { config, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
   ];
+  # sshfs baby
 
   environment.sessionVariables = {
-      # define flake directory for nh (from vimjoyer vid)
-      FLAKE = "/etc/nixos";
-    };
+    # define flake directory for nh (from vimjoyer vid)
+    FLAKE = "/etc/nixos";
+  };
 
   # Enable the Flakes feature and the accompanying new nix command-line tool
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
+  ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -64,14 +67,16 @@
     xkbVariant = "";
   };
 
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.admin = {
     isNormalUser = true;
     description = "Admin";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
     packages = with pkgs; [
-    #  thunderbird
+      #  thunderbird
     ];
   };
 
@@ -84,8 +89,11 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-  #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #  wget
+    #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    #  wget
+    cowsay
+    tmux
+    certbot
     wormhole-rs
     helix
     lazygit
@@ -93,7 +101,6 @@
     _1password-gui
     nh
     nix-output-monitor
-    xsel
     git
     btop
 
@@ -148,5 +155,4 @@
     switch = "nh os switch";
     config = "cd /etc/nixos";
   };
-
 }
