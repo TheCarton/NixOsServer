@@ -9,7 +9,8 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
-  # sshfs baby
+
+  security.polkit.enable = true;
 
   environment.sessionVariables = {
     # define flake directory for nh (from vimjoyer vid)
@@ -90,8 +91,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    #  wget
-    cowsay
+    wget
     tmux
     certbot
     wormhole-rs
@@ -152,7 +152,7 @@
   system.stateVersion = "24.05"; # Did you read the comment?
   programs.bash.shellAliases = {
     "lg" = "lazygit";
-    switch = "nh os switch";
-    config = "cd /etc/nixos";
+    rebuild = "nh os switch";
+    etc = "cd /etc/nixos";
   };
 }
