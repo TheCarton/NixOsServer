@@ -23,6 +23,40 @@
     "flakes"
   ];
 
+  networking.firewall = {
+    allowedTCPPorts = [
+      8096
+      8920 # Web frontend
+      80
+      443
+    ];
+
+    allowedUDPPorts = [
+      1900
+      7359 # Discovery
+    ];
+  };
+
+  services.nginx = {
+    enable = true;
+
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
+
+    virtualHosts."cartonofdoom.win" = {
+      addSSL = true;
+      enableACME = true;
+      locations."/" = {
+        proxyPass = "http://localhost:8096";
+      };
+    };
+  };
+
+  security.acme.defaults.email = "theukearchy@gmail.com";
+  security.acme.acceptTerms = true;
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -75,9 +109,6 @@
     extraGroups = [
       "networkmanager"
       "wheel"
-    ];
-    packages = with pkgs; [
-      #  thunderbird
     ];
   };
 
