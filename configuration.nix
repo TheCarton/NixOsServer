@@ -45,7 +45,7 @@
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
 
-    virtualHosts."cartonofdoom.win" = {
+    virtualHosts."www.cartonofdoom.win" = {
       forceSSL = true;
       enableACME = true;
       locations."/" = {
