@@ -46,7 +46,7 @@
     recommendedTlsSettings = true;
 
     virtualHosts."cartonofdoom.win" = {
-      addSSL = true;
+      forceSSL = true;
       enableACME = true;
       locations."/" = {
         proxyPass = "http://localhost:8096";
@@ -62,11 +62,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -122,6 +117,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    openssl
     wget
     tmux
     certbot
@@ -145,6 +141,7 @@
 
   services.jellyfin = {
     enable = true;
+    openFirewall = true;
     user = "admin";
   };
 
