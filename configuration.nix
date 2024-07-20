@@ -26,6 +26,8 @@
   services.sonarr = {
     enable = true;
     openFirewall = true;
+    user = "admin";
+    group = "media";
     dataDir = "/home/admin/JellyfinMedia/shows";
   };
 
@@ -35,6 +37,7 @@
       8920 # Web frontend
       80
       443
+      8989
     ];
 
     allowedUDPPorts = [
