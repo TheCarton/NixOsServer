@@ -129,7 +129,7 @@
     settings = {
       # Override default settings
       rpc-bind-address = "0.0.0.0"; # Bind to own IP
-      rpc-whitelist = "127.0.0.1,192.168.0.187,192.168.0.129"; # Whitelist your remote machine (10.0.0.1 in this example)
+      rpc-whitelist = "127.0.0.1,192.168.0.129"; # Whitelist your remote machine (10.0.0.1 in this example)
     };
   };
   # List packages installed in system profile. To search, run:
