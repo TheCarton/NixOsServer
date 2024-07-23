@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 {
@@ -25,9 +21,9 @@
     privateKeyFile = config.age.secrets.mullvad_vpn.path;
     peers = [
       {
-        publicKey = "2dS4kIKQjZ0osDDepVsoNG1xbExTBMzHw7Z3XDqj6SI=";
+        publicKey = "2S3G7Sm9DVG6+uJtlDu4N6ed5V97sTbA5dCSkUelWyk="; # mullvad server public key
         allowedIPs = [ "0.0.0.0/0" ]; # To route all traffic through this peer
-        endpoint = "10.128.106.82/3:51820"; # unable to find port of endpoint. mullvad ip from curl thing
+        endpoint = "193.138.7.137:51820"; # mullvad server ip + 51820
       }
     ];
   };

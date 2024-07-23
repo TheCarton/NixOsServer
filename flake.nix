@@ -26,6 +26,7 @@
       nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
+          { environment.systemPackages = [ agenix.packages.x86_64-linux.default ]; }
           ./configuration.nix
           agenix.nixosModules.default
           wg-namespace-flake.nixosModules.default
