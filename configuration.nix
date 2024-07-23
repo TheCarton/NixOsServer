@@ -17,15 +17,17 @@
     FLAKE = "/etc/nixos";
   };
 
+  age.secrets.mullvad_vpn.file = ./secrets/mullvad_vpn.age;
+
   services.wireguard-namespace = {
     dns_server = "194.242.2.2"; # mullvad vpn ipv4
-    ips = [ "192.168.0.187/24" ]; # server private ip
-    privateKeyFile = config.age.secrets.my_vpn_key.path;
+    ips = [ "10.0.0.1/32" ]; # virtual address of the local WireGuard peer
+    privateKeyFile = config.age.secrets.mullvad_vpn.path;
     peers = [
       {
-        publicKey = "<PUBLIC_KEY>";
+        publicKey = "2dS4kIKQjZ0osDDepVsoNG1xbExTBMzHw7Z3XDqj6SI=";
         allowedIPs = [ "0.0.0.0/0" ]; # To route all traffic through this peer
-        endpoint = "<ENDPOINT>";
+        endpoint = "10.128.106.82/3:51820"; # unable to find port of endpoint. mullvad ip from curl thing
       }
     ];
   };
