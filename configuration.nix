@@ -17,6 +17,19 @@
     FLAKE = "/etc/nixos";
   };
 
+  services.wireguard-namespace = {
+    dns_server = "194.242.2.2"; # mullvad vpn ipv4
+    ips = [ "192.168.0.187/24" ]; # server private ip
+    privateKeyFile = config.age.secrets.my_vpn_key.path;
+    peers = [
+      {
+        publicKey = "<PUBLIC_KEY>";
+        allowedIPs = [ "0.0.0.0/0" ]; # To route all traffic through this peer
+        endpoint = "<ENDPOINT>";
+      }
+    ];
+  };
+
   # Enable the Flakes feature and the accompanying new nix command-line tool
   nix.settings.experimental-features = [
     "nix-command"
@@ -158,7 +171,7 @@
     nginx
   ];
 
-  environment.variables.EDITOR = "helix";
+  environment.variables.EDITOR = "hx";
 
   services.jellyfin = {
     enable = true;
