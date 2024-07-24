@@ -16,14 +16,15 @@
   age.secrets.mullvad_vpn.file = ./secrets/mullvad_vpn.age;
 
   services.wireguard-namespace = {
-    dns_server = "194.242.2.2"; # mullvad vpn ipv4
-    ips = [ "10.0.0.1/32" ]; # virtual address of the local WireGuard peer
-    privateKeyFile = config.age.secrets.mullvad_vpn.path;
+    dns_server = "10.64.0.1"; # from dns field in mullvad generated wireguard conf file
+    # Device: Giving Bunny
+    ips = [ "10.70.151.153/32" ]; # from address field in mullvad generated wireguard conf file
+    privateKeyFile = config.age.secrets.mullvad_vpn.path; # using agenix on private key field from generated conf file
     peers = [
       {
-        publicKey = "2S3G7Sm9DVG6+uJtlDu4N6ed5V97sTbA5dCSkUelWyk="; # mullvad server public key
+        publicKey = "fZFAcd8vqWOBpRqlXifsjzGf16gMTg2GuwKyZtkG6UU="; # mullvad server public key from generated conf file
         allowedIPs = [ "0.0.0.0/0" ]; # To route all traffic through this peer
-        endpoint = "193.138.7.137:51820"; # mullvad server ip + 51820
+        endpoint = "193.138.218.83:51820"; # from endpoint field in generated conf file
       }
     ];
   };
@@ -146,6 +147,7 @@
   services.mullvad-vpn.enable = true;
 
   environment.systemPackages = with pkgs; [
+    firejail
     mullvad
     sonarr
     transmission-qt
