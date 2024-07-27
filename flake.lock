@@ -99,8 +99,7 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
-        "nixpkgs": "nixpkgs_2",
-        "wg-namespace-flake": "wg-namespace-flake"
+        "nixpkgs": "nixpkgs_2"
       }
     },
     "systems": {
@@ -115,26 +114,6 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
-        "type": "github"
-      }
-    },
-    "wg-namespace-flake": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1668060489,
-        "narHash": "sha256-8GLPHJV0iMS8d4lEUP+v4p2IqRKGWDJwsP96+mm0fHw=",
-        "owner": "VTimofeenko",
-        "repo": "wg-namespace-flake",
-        "rev": "956d80aae5f7871bdcfa3946c175985c211d8498",
-        "type": "github"
-      },
-      "original": {
-        "owner": "VTimofeenko",
-        "repo": "wg-namespace-flake",
         "type": "github"
       }
     }

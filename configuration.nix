@@ -4,7 +4,6 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    # ./systemd_network_namespace.nix
   ];
 
   security.polkit.enable = true;
@@ -14,38 +13,13 @@
     FLAKE = "/etc/nixos";
   };
 
-  # [2024-07-24 13:32:02.077] transmission-remote:  (http://localhost:9091/transmission/rpc/) Couldn't connect to server
-
   services.resolved.enable = true; # the wiki says this is needed for mullvad.
-
-  age.secrets.mullvad_vpn.file = ./secrets/mullvad_vpn.age;
-  services.wireguard-namespace = {
-    dns_server = "10.64.0.1"; # from dns field in mullvad generated wireguard conf file
-    # Device: Giving Bunny
-    ips = [ "10.70.151.153/32" ]; # from address field in mullvad generated wireguard conf file
-    privateKeyFile = config.age.secrets.mullvad_vpn.path; # using agenix on private key field from generated conf file
-    peers = [
-      {
-        publicKey = "fZFAcd8vqWOBpRqlXifsjzGf16gMTg2GuwKyZtkG6UU="; # mullvad server public key from generated conf file
-        allowedIPs = [ "0.0.0.0/0" ]; # To route all traffic through this peer
-        endpoint = "193.138.218.83:51820"; # from endpoint field in generated conf file
-      }
-    ];
-  };
 
   # Enable the Flakes feature and the accompanying new nix command-line tool
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
   ];
-
-  services.sonarr = {
-    enable = true;
-    openFirewall = true;
-    user = "admin";
-    group = "media";
-    dataDir = "/home/admin/JellyfinMedia/shows";
-  };
 
   networking.firewall = {
     allowedTCPPorts = [
@@ -111,13 +85,6 @@
     LC_TIME = "en_US.UTF-8";
   };
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
   # Configure keymap in X11
   services.xserver = {
     layout = "us";
@@ -134,22 +101,13 @@
     ];
   };
 
-  # Install firefox.
-  programs.firefox.enable = true;
-
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  services.mullvad-vpn.enable = true;
-
   environment.systemPackages = with pkgs; [
     nftables
-    tremc
     systemctl-tui
     firejail
-    mullvad-vpn
-    sonarr
-    transmission-qt
     openssl
     wget
     tmux
@@ -177,16 +135,6 @@
     openFirewall = true;
     user = "admin";
   };
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   services.openssh = {
