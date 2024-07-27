@@ -1,0 +1,6 @@
+table inet excludeTraffic {
+  chain excludeOutgoing {
+    type route hook output priority 0; policy accept;
+    ip daddr 130.44.151.1 ct mark set 0x00000f41 meta mark set 0x6d6f6c65;
+  }
+}

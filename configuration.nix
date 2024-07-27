@@ -4,6 +4,7 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    # ./systemd_network_namespace.nix
   ];
 
   security.polkit.enable = true;
@@ -13,8 +14,11 @@
     FLAKE = "/etc/nixos";
   };
 
-  age.secrets.mullvad_vpn.file = ./secrets/mullvad_vpn.age;
+  # [2024-07-24 13:32:02.077] transmission-remote:  (http://localhost:9091/transmission/rpc/) Couldn't connect to server
 
+  services.resolved.enable = true; # the wiki says this is needed for mullvad.
+
+  age.secrets.mullvad_vpn.file = ./secrets/mullvad_vpn.age;
   services.wireguard-namespace = {
     dns_server = "10.64.0.1"; # from dns field in mullvad generated wireguard conf file
     # Device: Giving Bunny
@@ -51,6 +55,7 @@
       443
       8989
       9091
+      51820
     ];
 
     allowedUDPPorts = [
@@ -110,8 +115,8 @@
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  # services.xserver.displayManager.gdm.enable = true;
-  # services.xserver.desktopManager.gnome.enable = true;
+  services.xserver.displayManager.gdm.enable = true;
+  services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -135,20 +140,14 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  services.transmission = {
-    enable = true; # Enable transmission daemon
-    openRPCPort = true; # Open firewall for RPC
-    settings = {
-      # Override default settings
-      rpc-bind-address = "0.0.0.0"; # Bind to own IP
-      rpc-whitelist = "127.0.0.1,192.168.0.129"; # Whitelist your remote machine (10.0.0.1 in this example)
-    };
-  };
   services.mullvad-vpn.enable = true;
 
   environment.systemPackages = with pkgs; [
+    nftables
+    tremc
+    systemctl-tui
     firejail
-    mullvad
+    mullvad-vpn
     sonarr
     transmission-qt
     openssl
