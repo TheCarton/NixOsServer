@@ -13,13 +13,13 @@
     FLAKE = "/etc/nixos";
   };
 
-  services.resolved.enable = true; # the wiki says this is needed for mullvad.
-
   # Enable the Flakes feature and the accompanying new nix command-line tool
   nix.settings.experimental-features = [
     "nix-command"
     "flakes"
   ];
+
+  virtualisation.docker.enable = true;
 
   networking.firewall = {
     allowedTCPPorts = [
@@ -27,12 +27,15 @@
       8920 # Web frontend
       80
       443
-      8989
+      8989 # Sonarr
       9091
       51820
+      51413
+      9696 # Prowlarr
     ];
 
     allowedUDPPorts = [
+      51413
       1900
       7359 # Discovery
     ];
@@ -98,6 +101,7 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "docker"
     ];
   };
 
@@ -105,6 +109,7 @@
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
+    docker-compose
     nftables
     systemctl-tui
     firejail
