@@ -162,5 +162,6 @@
     "lg" = "lazygit";
     rebuild = "nh os switch";
     etc = "cd /etc/nixos";
+    cddocker = "cd /etc/dockerfiles";
   };
 }
