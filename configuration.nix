@@ -27,11 +27,12 @@
       8920 # Web frontend
       80
       443
-      8989 # Sonarr
       9091
       51820
       51413
       9696 # Prowlarr
+      8989 # Sonarr
+      7878 # Radarr
     ];
 
     allowedUDPPorts = [
