@@ -21,6 +21,15 @@
 
   virtualisation.docker.enable = true;
 
+  # never sleep
+  powerManagement.powertop.enable = true;
+  systemd.targets = {
+    sleep.enable = false;
+    suspend.enable = false;
+    hibernate.enable = false;
+    hybrid-sleep.enable = false;
+  };
+
   networking.firewall = {
     allowedTCPPorts = [
       8096
