@@ -113,6 +113,8 @@
       "www.cartonofdoom.win" = {
         forceSSL = true;
         enableACME = true;
+        # All serverAliases will be added as extra domain names on the certificate.
+        serverAliases = [ "cartonofdoom.win" ];
         locations."/" = {
           proxyPass = "http://localhost:8096";
         };
@@ -130,7 +132,6 @@
 
   security.acme.defaults.email = "theukearchy@gmail.com";
   security.acme.acceptTerms = true;
-  # security.acme.certs."www.cartonofdoom.win".extraDomainNames = [ "jellyseerr.cartonofdoom.win" ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
