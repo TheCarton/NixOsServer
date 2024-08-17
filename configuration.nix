@@ -91,6 +91,7 @@
       8990 # Sonarr Anime
       7878 # Radarr
       7879 # Radarr
+      5055 # Jellyseerr
     ];
 
     allowedUDPPorts = [
@@ -108,25 +109,28 @@
     recommendedProxySettings = true;
     recommendedTlsSettings = true;
 
-    virtualHosts."www.cartonofdoom.win" = {
-      forceSSL = true;
-      enableACME = true;
-      locations."/" = {
-        proxyPass = "http://localhost:8096";
+    virtualHosts = {
+      "www.cartonofdoom.win" = {
+        forceSSL = true;
+        enableACME = true;
+        locations."/" = {
+          proxyPass = "http://localhost:8096";
+        };
       };
-    };
 
-    "jellyseerr.cartonofdoom.win" = {
-      forceSSL = true;
-      useACMEHost = "www.cartonofdoom.win";
-      locations."/" = {
-        proxyPass = "http://localhost:5055";
+      "jellyseerr.cartonofdoom.win" = {
+        forceSSL = true;
+        enableACME = true;
+        locations."/" = {
+          proxyPass = "http://localhost:5055";
+        };
       };
     };
   };
 
   security.acme.defaults.email = "theukearchy@gmail.com";
   security.acme.acceptTerms = true;
+  # security.acme.certs."www.cartonofdoom.win".extraDomainNames = [ "jellyseerr.cartonofdoom.win" ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
