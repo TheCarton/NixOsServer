@@ -24,6 +24,11 @@
       options = [ "fmask=0022" "dmask=0022" ];
     };
 
+  fileSystems."/hdd" =
+    { device = "/dev/disk/by-uuid/f10e65af-b5ea-498f-9920-b09d7aa0ac41";
+      fsType = "ext4";
+    };
+
   swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
@@ -31,8 +36,12 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-7e24bc9252bd.useDHCP = lib.mkDefault true;
   # networking.interfaces.docker0.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp8s0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth0e431b6.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth31b64f4.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth3e2186f.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
