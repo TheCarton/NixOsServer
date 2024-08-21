@@ -203,7 +203,6 @@
     certbot
     wormhole-rs
     helix
-    lazygit
     nil
     _1password-gui
     nh
@@ -242,7 +241,6 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "24.05"; # Did you read the comment?
   programs.bash.shellAliases = {
-    "lg" = "lazygit";
     rebuild = "nh os switch";
     etc = "cd /etc/nixos";
     cddocker = "cd /etc/dockerfiles";
