@@ -92,6 +92,8 @@
       7878 # Radarr
       7879 # Radarr
       5055 # Jellyseerr
+      8080 # SABnzbd
+      6767 # Bazarr
     ];
 
     allowedUDPPorts = [
@@ -118,6 +120,15 @@
         locations."/" = {
           proxyPass = "http://localhost:8096";
         };
+        extraConfig = ''
+          ## The default `client_max_body_size` is 1M, this might not be enough for some posters, etc.
+          client_max_body_size 20M;
+            
+          # Security / XSS Mitigation Headers
+          # NOTE: X-Frame-Options may cause issues with the webOS app
+          add_header X-Frame-Options \"SAMEORIGIN\";
+          add_header X-Content-Type-Options \"nosniff\";
+        '';
       };
 
       "jellyseerr.cartonofdoom.win" = {
