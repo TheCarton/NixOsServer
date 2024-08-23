@@ -1,18 +1,31 @@
-{
-  config,
-  pkgs,
-  nixpkgs-unstable,
-  ...
-}:
+{ config, pkgs, ... }:
 
 {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ./jellyfin.nix
   ];
 
   security.polkit.enable = true;
+
+  services.xserver.enable = true;
+  services.xserver.videoDrivers = [ "modesetting" ];
+
+  # 1. enable vaapi on OS-level
+  nixpkgs.config.packageOverrides = pkgs: {
+    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+  };
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+      intel-vaapi-driver # previously vaapiIntel
+      vaapiVdpau
+      intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
+      onevpl-intel-gpu
+      intel-media-sdk # QSV up to 11th gen
+    ];
+  };
 
   environment.sessionVariables = {
     # define flake directory for nh (from vimjoyer vid)
@@ -176,6 +189,9 @@
     git
     btop
 
+    jellyfin
+    jellyfin-web
+    jellyfin-ffmpeg
     nginx
   ];
 
