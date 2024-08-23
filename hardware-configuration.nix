@@ -8,7 +8,7 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usbhid" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
@@ -36,12 +36,16 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.br-7e24bc9252bd.useDHCP = lib.mkDefault true;
+  # networking.interfaces.br-513d69527480.useDHCP = lib.mkDefault true;
   # networking.interfaces.docker0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp8s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.veth0e431b6.useDHCP = lib.mkDefault true;
-  # networking.interfaces.veth31b64f4.useDHCP = lib.mkDefault true;
-  # networking.interfaces.veth3e2186f.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp11s0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth10774b9.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth56db376.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth65b371d.useDHCP = lib.mkDefault true;
+  # networking.interfaces.veth98fda64.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethdf3c513.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethe3a3f51.useDHCP = lib.mkDefault true;
+  # networking.interfaces.vethec6e360.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
