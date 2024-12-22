@@ -170,6 +170,7 @@
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
+    dua
     onevpl-intel-gpu
     intel-gpu-tools
     docker-compose
