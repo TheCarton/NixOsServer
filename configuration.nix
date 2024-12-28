@@ -14,6 +14,11 @@
   # 1. enable vaapi on OS-level
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
+
+    factorio = pkgs.factorio.override {
+      username = "TheCarton";
+      token = "d19487f4dc83fe2c05d3cfbec5ad13";
+    };
   };
   hardware.opengl = {
     enable = true;
@@ -90,6 +95,15 @@
     recommendedTlsSettings = true;
 
     virtualHosts = {
+      "static.cartonofdoom.win" = {
+        forceSSL = true;
+        enableACME = true;
+        root = "/var/www/homepage";
+        locations."/" = {
+          index = "index.html";
+        };
+      };
+
       "www.cartonofdoom.win" = {
         forceSSL = true;
         enableACME = true;
@@ -170,6 +184,7 @@
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
+    factorio
     dua
     onevpl-intel-gpu
     intel-gpu-tools
@@ -190,9 +205,6 @@
     git
     btop
 
-    jellyfin
-    jellyfin-web
-    jellyfin-ffmpeg
     nginx
   ];
 

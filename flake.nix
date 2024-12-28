@@ -1,11 +1,10 @@
 {
-  description = "A simple NixOS flake";
+  description = "Media server flake";
 
   inputs = {
-    # NixOS official package source, using the nixos-24.05 branch here
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     agenix.url = "github:ryantm/agenix";
-    # nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
   outputs =
@@ -13,7 +12,7 @@
       self,
       nixpkgs,
       agenix,
-      # nixpkgs-unstable,
+      nixpkgs-unstable,
       ...
     }@inputs:
     {
