@@ -1,5 +1,17 @@
-{ config, pkgs, ... }:
-
+{
+  config,
+  pkgs,
+  nixpkgs-unstable,
+  ...
+}:
+let
+  unstable = import nixpkgs-unstable {
+    system = pkgs.system;
+    config = {
+      allowUnfree = true;
+    };
+  };
+in
 {
   imports = [
     # Include the results of the hardware scan.
@@ -11,15 +23,51 @@
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "modesetting" ];
 
+  age.secrets = {
+    factorio-token = {
+      file = ./secrets/factorio.age;
+      owner = "factorio"; # adjust if using different user
+      group = "factorio"; # adjust if using different group
+    };
+    factorio-password = {
+      file = ./secrets/factorio-password.age;
+      owner = "factorio";
+      group = "factorio";
+    };
+  };
+
+  services.factorio = {
+    enable = true;
+    # Use headless version
+    package = unstable.factorio-headless;
+
+    # Server settings
+    saveName = "world"; # Name of your save file
+    token = config.age.secrets.factorio-token.path;
+
+    # Game settings
+    game-name = "My Factorio Server"; # Server name shown in game browser
+
+    game-password = "!include ${config.age.secrets.factorio-password.path}";
+
+    # Description shown in server browser
+    description = "NixOS Dedicated Server";
+
+    # Network settings
+    port = 34197; # Default Factorio port
+
+    # Additional settings (optional)
+    admins = [ "TheCarton" ]; # Server admins
+
+    # Add any custom server settings here
+    autosave-interval = 15; # Save every 15 minutes
+  };
+
   # 1. enable vaapi on OS-level
   nixpkgs.config.packageOverrides = pkgs: {
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
-
-    factorio = pkgs.factorio.override {
-      username = "TheCarton";
-      token = "d19487f4dc83fe2c05d3cfbec5ad13";
-    };
   };
+
   hardware.opengl = {
     enable = true;
     extraPackages = with pkgs; [
@@ -77,12 +125,14 @@
       5055 # Jellyseerr
       8080 # SABnzbd
       6767 # Bazarr
+      34197 # Factorio
     ];
 
     allowedUDPPorts = [
       51413
       1900
       7359 # Discovery
+      34197 # Factorio
     ];
   };
 
@@ -184,7 +234,6 @@
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = with pkgs; [
-    factorio
     dua
     onevpl-intel-gpu
     intel-gpu-tools
