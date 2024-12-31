@@ -46,7 +46,7 @@ in
     token = config.age.secrets.factorio-token.path;
 
     # Game settings
-    game-name = "My Factorio Server"; # Server name shown in game browser
+    game-name = "Carton of Doom"; # Server name shown in game browser
 
     game-password = "!include ${config.age.secrets.factorio-password.path}";
 
