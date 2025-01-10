@@ -12,6 +12,7 @@ let
     };
   };
 in
+
 {
   imports = [
     # Include the results of the hardware scan.
@@ -25,33 +26,61 @@ in
 
   age.secrets = {
     factorio-token = {
-      file = ./secrets/factorio.age;
+      file = ./secrets/factorio-token.age;
       owner = "factorio"; # adjust if using different user
       group = "factorio"; # adjust if using different group
     };
-    factorio-password = {
-      file = ./secrets/factorio-password.age;
+    factorio-server = {
+      file = ./secrets/factorio-server.age;
       owner = "factorio";
       group = "factorio";
     };
   };
 
+  # Create the initial json file with placeholders
+  environment.etc."factorio/extra_settings.json".text = builtins.toJSON {
+    "game_password" = "@FACTORIO_PASSWORD@";
+    "token" = "@FACTORIO_TOKEN@";
+  };
+
+  # Replace placeholders with actual secrets
+  system.activationScripts.factorio-secrets = ''
+    token=$(cat "${config.age.secrets.factorio-token.path}")
+    server_password=$(cat "${config.age.secrets.factorio-server.path}")
+    configFile=/etc/factorio/extra_settings.json
+
+    # Use sed to replace both placeholders
+    ${pkgs.gnused}/bin/sed -i \
+      -e "s#@FACTORIO_TOKEN@#$token#" \
+      -e "s#@FACTORIO_PASSWORD@#$server_password#" \
+      "$configFile"
+
+    # Ensure factorio user can read the file
+    chown factorio:factorio "$configFile"
+    chmod 600 "$configFile"
+  '';
+
   services.factorio = {
     enable = true;
+    public = true;
+
+    username = "TheCarton";
+
+    extraSettingsFile = "/etc/factorio/extra_settings.json";
+
     # Use headless version
     package = unstable.factorio-headless;
 
     # Server settings
     saveName = "world"; # Name of your save file
-    token = config.age.secrets.factorio-token.path;
+
+    nonBlockingSaving = true;
 
     # Game settings
     game-name = "Carton of Doom"; # Server name shown in game browser
 
-    game-password = "!include ${config.age.secrets.factorio-password.path}";
-
     # Description shown in server browser
-    description = "NixOS Dedicated Server";
+    description = "Do you think God stays in heaven because he's afraid of what he's created?";
 
     # Network settings
     port = 34197; # Default Factorio port
@@ -125,7 +154,6 @@ in
       5055 # Jellyseerr
       8080 # SABnzbd
       6767 # Bazarr
-      34197 # Factorio
     ];
 
     allowedUDPPorts = [
@@ -229,6 +257,14 @@ in
       "docker"
     ];
   };
+
+  # for agenix to chown stuff properly.
+  users.users.factorio = {
+    group = "factorio";
+    isSystemUser = true;
+  };
+
+  users.groups.factorio = { };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;

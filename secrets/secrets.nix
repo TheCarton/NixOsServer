@@ -1,12 +1,16 @@
 let
-  user1 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGk4QnB3Xmfx6AsWSXC3Om5UxTIctH+jlo9UMi/hrBZ1 theukearchy@gmail.com";
-  users = [ user1 ];
-  server = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEjC121MutcPSiqfH3iTKLb96x89CTbU+gOqlkODdNHb root@nixos";
+  # from desktop's ~/.ssh/id_ed25519.pub
+  desktop = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDNTAsCObLLjfTr8o3JORZOdKjDf2Q3Lr0qgqssEvLfZ luke@nixos";
+  # users are humans that create/modify keys.
+  users = [ desktop ];
 
+  # from the server's /etc/ssh/ssh_host_ed25519_key.pub
+  server = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEjC121MutcPSiqfH3iTKLb96x89CTbU+gOqlkODdNHb root@nixos";
+  # systems are machines that need to decrypt keys at runtime.
   systems = [ server ];
 in
 {
-  "mullvad_vpn.age".publicKeys = systems ++ users;
-  "factorio.age".publicKeys = systems ++ users;
+  "factorio-token.age".publicKeys = systems ++ users;
+  "factorio-server.age".publicKeys = systems ++ users;
   "factorio-password.age".publicKeys = systems ++ users;
 }
