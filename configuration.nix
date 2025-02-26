@@ -19,6 +19,32 @@ in
     ./hardware-configuration.nix
   ];
 
+  # installed software
+  environment.systemPackages = with pkgs; [
+    hugo
+    dua
+    onevpl-intel-gpu
+    intel-gpu-tools
+    docker-compose
+    nftables
+    systemctl-tui
+    firejail
+    openssl
+    wget
+    tmux
+    certbot
+    wormhole-rs
+    helix
+    nil
+    _1password-gui
+    nh
+    nix-output-monitor
+    git
+    btop
+
+    nginx
+  ];
+
   security.polkit.enable = true;
 
   services.xserver.enable = true;
@@ -70,6 +96,9 @@ in
 
     # Use headless version
     package = unstable.factorio-headless;
+
+    # Use most recent save
+    loadLatestSave = true;
 
     # Server settings
     saveName = "world"; # Name of your save file
@@ -269,35 +298,10 @@ in
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  environment.systemPackages = with pkgs; [
-    dua
-    onevpl-intel-gpu
-    intel-gpu-tools
-    docker-compose
-    nftables
-    systemctl-tui
-    firejail
-    openssl
-    wget
-    tmux
-    certbot
-    wormhole-rs
-    helix
-    nil
-    _1password-gui
-    nh
-    nix-output-monitor
-    git
-    btop
-
-    nginx
-  ];
-
   environment.variables.EDITOR = "hx";
 
   services.jellyfin = {
     enable = true;
-    openFirewall = true;
     user = "admin";
   };
 
