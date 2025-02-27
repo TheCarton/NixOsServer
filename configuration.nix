@@ -17,7 +17,12 @@ in
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    # ./luke-vandermale-site/configuration.nix
   ];
+
+  #TODO: Fix error: path '/nix/store/ar0p671ifjkmxgcx4y8q9jjd9yh2j5w8-source/luke-vandermale-│
+  # site/configuration.nix' does not exist
+  # https://matoking.com/blog/2023/07/08/deploying-hugo-site-using-nixos-and-nginx/#end
 
   # installed software
   environment.systemPackages = with pkgs; [
