@@ -9,6 +9,8 @@ in
     enable = true;
 
     virtualHosts."${webDomain}" = {
+      forceSSL = true;
+      enableACME = true;
       serverAliases = [ "www.${webDomain}" ];
 
       locations = {
