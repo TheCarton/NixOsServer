@@ -21,9 +21,10 @@ in
 
   # installed software
   environment.systemPackages = with pkgs; [
+    ripgrep
     hugo
     dua
-    onevpl-intel-gpu
+    vpl-gpu-rt
     intel-gpu-tools
     docker-compose
     nftables
@@ -48,6 +49,7 @@ in
   security.polkit.enable = true;
 
   services.xserver.enable = true;
+
   services.xserver.videoDrivers = [ "modesetting" ];
 
   age.secrets = {
@@ -126,14 +128,14 @@ in
     vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
   };
 
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       intel-media-driver
       intel-vaapi-driver # previously vaapiIntel
       vaapiVdpau
       intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
-      onevpl-intel-gpu
+      vpl-gpu-rt
       intel-media-sdk # QSV up to 11th gen
     ];
   };
@@ -272,8 +274,8 @@ in
 
   # Configure keymap in X11
   services.xserver = {
-    layout = "us";
-    xkbVariant = "";
+    xkb.layout = "us";
+    xkb.variant = "";
   };
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -325,5 +327,6 @@ in
     rebuild = "nh os switch";
     etc = "cd /etc/nixos";
     cddocker = "cd /etc/dockerfiles";
+
   };
 }
