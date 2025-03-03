@@ -15,7 +15,7 @@ in
 
       locations = {
         "/" = {
-          alias = "${pkgs.hugo-site}/";
+          alias = "${pkgs.hugo-site.override { baseURL = "https://${webDomain}"; }}/";
         };
       };
     };

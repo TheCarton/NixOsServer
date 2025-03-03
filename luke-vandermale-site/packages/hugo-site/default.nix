@@ -3,15 +3,8 @@
   stdenv,
   pkgs,
   fetchFromGitHub,
+  baseURL ? "http://localhost",
 }:
-# The issue with this is my server is a flake-based system, and this is
-# a nix channel / og nix approach. It runs into the 'impure evaluation'
-# shit which is a dumb error message that I don't understand.
-#
-# My new idea is to try to combine these tutorials:
-# https://prodlog.xyz/posts/hugo-nix/ flake version but incomplete
-# and also the full deploy-to-the-web tutorial
-# https://matoking.com/blog/2023/07/08/deploying-hugo-site-using-nixos-and-nginx/#end
 
 let
   hugoTheme = builtins.fetchTarball {
@@ -24,6 +17,8 @@ in
 stdenv.mkDerivation rec {
   pname = "hugo-site";
   version = "0.1";
+  # i thought but pushing to this github I'd be able to show my first
+  # post but it didn't work. There was no update to the public site.
 
   src = fetchFromGitHub {
     owner = "TheCarton";
@@ -40,7 +35,7 @@ stdenv.mkDerivation rec {
   installPhase = ''
     mkdir -p themes/ananke;
     cp -r ${hugoTheme}/* themes/ananke/;
-    hugo -b http://localhost -t ananke -d $out;
+    hugo -b ${baseURL} -t ananke -d $out;
   '';
 
   meta = {

@@ -25,6 +25,8 @@
           ./configuration.nix
           agenix.nixosModules.default
           ./luke-vandermale-site/configuration.nix
+          # this is the difference from the matoking tutorial. I'm importing
+          # this configuration.nix from the flake, not within my nixos/configuration.nix.
         ];
       };
     };
