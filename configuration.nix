@@ -21,6 +21,7 @@ in
 
   # installed software
   environment.systemPackages = with pkgs; [
+    dysk
     ripgrep
     hugo
     dua
