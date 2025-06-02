@@ -10,8 +10,8 @@ pkgs.stdenv.mkDerivation rec {
   src = pkgs.fetchFromGitHub {
     owner = "TheCarton";
     repo = "parvaaz_website";
-    rev = "865b7e4e5686484385ea969e5cf3b10853726bcc";
-    hash = "sha256-crBog0/MCSlgu2bIYJtOtG9QwMsqEUPbFldqivJWdvE="; # fill after first build error
+    rev = "d2dc5714218e5153b72e968b4bea2e8971cc73f3";
+    hash = "sha256-BdJGUAWneg6yRs9cqSnXM0m8iDhxRtw7sSiH8MTmP6s="; # fill after first build error
   };
 
   theme = pkgs.fetchurl {
