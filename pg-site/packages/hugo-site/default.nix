@@ -1,6 +1,6 @@
 {
   pkgs ? import <nixpkgs> { },
-  baseURL ? "https://parvaazgodarastudio.com",
+  baseURL ? "https://parvaazgodara.com",
 }:
 
 pkgs.stdenv.mkDerivation rec {
