@@ -59,14 +59,14 @@ in
     # directly maps to values in the [global] section of the copyparty config.
     # see `copyparty --help` for available options
     settings = {
-      i = "0.0.0.0";
-      # use lists to set multiple values
-      p = [
-        3210
-        3211
-      ];
+      # i = "0.0.0.0";
+      # # use lists to set multiple values
+      # p = [
+      #   3210
+      #   3211
+      # ];
       # use booleans to set binary flags
-      no-reload = true;
+      no-reload = false;
       # using 'false' will do nothing and omit the value when generating a config
       ignored-flag = false;
     };
@@ -89,7 +89,7 @@ in
       # create a volume at "/" (the webroot), which will
       "/" = {
         # share the contents of "/srv/copyparty"
-        path = "/srv/copyparty";
+        path = "/hdd/data/copyparty";
         # see `copyparty --help-accounts` for available options
         access = {
           # everyone gets read-access, but
@@ -132,6 +132,12 @@ in
       file = ./secrets/factorio-server.age;
       owner = "factorio";
       group = "factorio";
+    };
+    copyparty = {
+      file = ./secrets/copyparty.age;
+      path = "/run/keys/copyparty/luke_password";
+      owner = "copyparty";
+      group = "copyparty";
     };
   };
 
@@ -255,7 +261,16 @@ in
       5055 # Jellyseerr
       8080 # SABnzbd
       6767 # Bazarr
+      3921 # Copyparty
       3923 # Copyparty
+      3945 # Copyparty
+      3990 # Copyparty
+    ];
+    allowedTCPPortRanges = [
+      {
+        from = 12000; # Copyparty
+        to = 12099;
+      }
     ];
 
     allowedUDPPorts = [
@@ -263,7 +278,10 @@ in
       1900
       7359 # Discovery
       34197 # Factorio
-      3923 # Copyparty
+      69 # Copyparty
+      1900 # Copyparty
+      3969 # Copyparty
+      5353 # Copyparty
     ];
   };
 
