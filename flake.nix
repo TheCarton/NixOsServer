@@ -4,6 +4,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
     agenix.url = "github:ryantm/agenix";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    # add copyparty flake to your inputs
+    copyparty.url = "github:9001/copyparty";
   };
   outputs =
     {
@@ -11,6 +13,7 @@
       nixpkgs,
       agenix,
       nixpkgs-unstable,
+      copyparty,
       ...
     }@inputs:
     {
@@ -30,7 +33,23 @@
           pgSitePkg = self.packages.x86_64-linux.pg-site;
           lukeSitePkg = self.packages.x86_64-linux.luke-site;
         }; # Add this line to pass unstable
+
         modules = [
+
+          # load the copyparty NixOS module
+          copyparty.nixosModules.default
+          (
+            { pkgs, ... }:
+            {
+              # add the copyparty overlay to expose the package to the module
+              nixpkgs.overlays = [ copyparty.overlays.default ];
+              # (optional) install the package globally
+              environment.systemPackages = [ pkgs.copyparty ];
+              # configure the copyparty module
+              services.copyparty.enable = true;
+            }
+          )
+
           { environment.systemPackages = [ agenix.packages.x86_64-linux.default ]; }
           ./configuration.nix
           agenix.nixosModules.default

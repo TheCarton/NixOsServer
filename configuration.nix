@@ -21,6 +21,7 @@ in
 
   # installed software
   environment.systemPackages = with pkgs; [
+    nvtopPackages.nvidia
     dysk
     ripgrep
     hugo
@@ -48,6 +49,74 @@ in
   ];
 
   security.polkit.enable = true;
+
+  services.copyparty = {
+    enable = true;
+    # the user to run the service as
+    user = "copyparty";
+    # the group to run the service as
+    group = "copyparty";
+    # directly maps to values in the [global] section of the copyparty config.
+    # see `copyparty --help` for available options
+    settings = {
+      i = "0.0.0.0";
+      # use lists to set multiple values
+      p = [
+        3210
+        3211
+      ];
+      # use booleans to set binary flags
+      no-reload = true;
+      # using 'false' will do nothing and omit the value when generating a config
+      ignored-flag = false;
+    };
+
+    # create users
+    accounts = {
+      # specify user and password file
+      luke.passwordFile = "/run/keys/copyparty/luke_password";
+    };
+
+    # create a group
+    groups = {
+      g1 = [
+        "luke"
+      ];
+    };
+
+    # create a volume
+    volumes = {
+      # create a volume at "/" (the webroot), which will
+      "/" = {
+        # share the contents of "/srv/copyparty"
+        path = "/srv/copyparty";
+        # see `copyparty --help-accounts` for available options
+        access = {
+          # everyone gets read-access, but
+          r = "*";
+          # users "ed" and "k" get read-write
+          rw = [
+            "luke"
+          ];
+        };
+        # see `copyparty --help-flags` for available options
+        flags = {
+          # "fk" enables filekeys (necessary for upget permission) (4 chars long)
+          fk = 4;
+          # scan for new files every 60sec
+          scan = 60;
+          # volflag "e2d" enables the uploads database
+          e2d = true;
+          # "d2t" disables multimedia parsers (in case the uploads are malicious)
+          d2t = true;
+          # skips hashing file contents if path matches *.iso
+          nohash = "\.iso$";
+        };
+      };
+    };
+    # you may increase the open file limit for the process
+    openFilesLimit = 8192;
+  };
 
   services.xserver.enable = true;
 
@@ -186,6 +255,7 @@ in
       5055 # Jellyseerr
       8080 # SABnzbd
       6767 # Bazarr
+      3923 # Copyparty
     ];
 
     allowedUDPPorts = [
@@ -193,6 +263,7 @@ in
       1900
       7359 # Discovery
       34197 # Factorio
+      3923 # Copyparty
     ];
   };
 
@@ -239,6 +310,7 @@ in
         locations."/" = {
           proxyPass = "http://localhost:5055";
         };
+
       };
     };
   };
