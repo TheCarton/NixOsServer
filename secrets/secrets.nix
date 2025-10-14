@@ -14,4 +14,7 @@ in
   "factorio-server.age".publicKeys = systems ++ users;
   "factorio-password.age".publicKeys = systems ++ users;
   "copyparty.age".publicKeys = systems ++ users;
+  "aaron-copyparty.age".publicKeys = systems ++ users;
+  "rye-copyparty.age".publicKeys = systems ++ users;
+  "pg-copyparty.age".publicKeys = systems ++ users;
 }

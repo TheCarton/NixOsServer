@@ -59,6 +59,7 @@ in
     # directly maps to values in the [global] section of the copyparty config.
     # see `copyparty --help` for available options
     settings = {
+
       # i = "0.0.0.0";
       # # use lists to set multiple values
       # p = [
@@ -75,6 +76,9 @@ in
     accounts = {
       # specify user and password file
       luke.passwordFile = "/run/keys/copyparty/luke_password";
+      aaron.passwordFile = "/run/keys/copyparty/aaron_password";
+      rye.passwordFile = "/run/keys/copyparty/rye_password";
+      pg.passwordFile = "/run/keys/copyparty/pg_password";
     };
 
     # create a group
@@ -92,11 +96,12 @@ in
         path = "/hdd/data/copyparty";
         # see `copyparty --help-accounts` for available options
         access = {
-          # everyone gets read-access, but
-          r = "*";
-          # users "ed" and "k" get read-write
+          # users get read-write
           rw = [
             "luke"
+            "aaron"
+            "rye"
+            "pg"
           ];
         };
         # see `copyparty --help-flags` for available options
@@ -111,6 +116,7 @@ in
           d2t = true;
           # skips hashing file contents if path matches *.iso
           nohash = "\.iso$";
+          https-only = true;
         };
       };
     };
@@ -136,6 +142,24 @@ in
     copyparty = {
       file = ./secrets/copyparty.age;
       path = "/run/keys/copyparty/luke_password";
+      owner = "copyparty";
+      group = "copyparty";
+    };
+    copyparty-aaron = {
+      file = ./secrets/aaron-copyparty.age;
+      path = "/run/keys/copyparty/aaron_password";
+      owner = "copyparty";
+      group = "copyparty";
+    };
+    copyparty-rye = {
+      file = ./secrets/rye-copyparty.age;
+      path = "/run/keys/copyparty/rye_password";
+      owner = "copyparty";
+      group = "copyparty";
+    };
+    copyparty-pg = {
+      file = ./secrets/pg-copyparty.age;
+      path = "/run/keys/copyparty/pg_password";
       owner = "copyparty";
       group = "copyparty";
     };
@@ -329,6 +353,13 @@ in
           proxyPass = "http://localhost:5055";
         };
 
+      };
+      "files.cartonofdoom.win" = {
+        forceSSL = true;
+        enableACME = true;
+        locations."/" = {
+          proxyPass = "http://localhost:3923";
+        };
       };
     };
   };

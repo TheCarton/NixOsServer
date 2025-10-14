@@ -1,0 +1,12 @@
+### How To Add An Account to Copyparty
+
+
+First, create an account in your password manager.
+
+Next, go to secrets/secrets.nix add an a line to the "in" block.
+
+Our example will be "bob-copyparty.age" so it would be:
+
+```nix
+  rye-copyparty.age".publicKeys = systems ++ users;	
+```
