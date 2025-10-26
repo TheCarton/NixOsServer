@@ -23,6 +23,7 @@ in
   # installed software
   environment.systemPackages = with pkgs; [
     cfssl # Cloudflare for Copyparty.
+    certmgr # I think this took care of a warning message about not being able to access cfssl from Copyparty.
     nvtopPackages.nvidia
     dysk
     ripgrep
@@ -46,7 +47,6 @@ in
     nix-output-monitor
     git
     btop
-
     nginx
   ];
 
@@ -72,8 +72,8 @@ in
       no-reload = false;
       # using 'false' will do nothing and omit the value when generating a config
       ignored-flag = false;
-      xff-hdr = "cf-connecting-ip";
-      xff-src = "any";
+      # xff-hdr = "cf-connecting-ip";
+      xff-src = "lan";
       rproxy = 1;
     };
 
