@@ -2,6 +2,7 @@
   config,
   pkgs,
   nixpkgs-unstable,
+  lib,
   ...
 }:
 let
@@ -21,6 +22,7 @@ in
 
   # installed software
   environment.systemPackages = with pkgs; [
+    cfssl # Cloudflare for Copyparty.
     nvtopPackages.nvidia
     dysk
     ripgrep
@@ -60,7 +62,7 @@ in
     # see `copyparty --help` for available options
     settings = {
 
-      # i = "0.0.0.0";
+      i = "unix:770:www:/dev/shm/party.sock";
       # # use lists to set multiple values
       # p = [
       #   3210
@@ -70,6 +72,9 @@ in
       no-reload = false;
       # using 'false' will do nothing and omit the value when generating a config
       ignored-flag = false;
+      xff-hdr = "cf-connecting-ip";
+      xff-src = "any";
+      rproxy = 1;
     };
 
     # create users
@@ -358,11 +363,26 @@ in
         forceSSL = true;
         enableACME = true;
         locations."/" = {
-          proxyPass = "http://localhost:3923";
+          proxyPass = "http://unix:/dev/shm/party.sock";
         };
       };
     };
   };
+  # This is needed for nginx to be able to read other processes
+  # directories in `/run`. Else it will fail with (13: Permission denied)
+  systemd.services.nginx.serviceConfig.ProtectHome = false;
+
+  #-i unix:770:www:/dev/shm/party.sock listens on
+  # /dev/shm/party.sock with permissions 0770;
+  # only accessible to members of the www group.
+  users.groups.www.members = [
+    "nginx"
+    "copyparty"
+  ];
+
+  # Most services will create sockets with 660 permissions.
+  # This means you have to add nginx to their group.
+  users.groups.copyparty.members = [ "nginx" ];
 
   security.acme.defaults.email = "theukearchy@gmail.com";
   security.acme.acceptTerms = true;
