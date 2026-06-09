@@ -475,6 +475,7 @@ in
   services.jellyfin = {
     enable = true;
     user = "admin";
+    package = unstable.jellyfin;
   };
 
   # Enable the OpenSSH daemon.
