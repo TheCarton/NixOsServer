@@ -64,10 +64,9 @@ in
 
       i = "unix:770:www:/dev/shm/party.sock";
       # # use lists to set multiple values
-      # p = [
-      #   3210
-      #   3211
-      # ];
+      p = [
+        3921
+      ];
       # use booleans to set binary flags
       no-reload = false;
       # using 'false' will do nothing and omit the value when generating a config
@@ -102,7 +101,7 @@ in
         # see `copyparty --help-accounts` for available options
         access = {
           # users get read-write
-          rw = [
+          rwd = [
             "luke"
             "aaron"
             "rye"
@@ -125,14 +124,14 @@ in
         };
       };
 
-      "/backups/" = {
+      "/external_source/" = {
 
         # share the contents of "/srv/copyparty"
-        path = "/home/admin/luke_backups";
+        path = "/home/admin/external_source";
         # see `copyparty --help-accounts` for available options
         access = {
           # users get read-write
-          rw = [
+          rwd = [
             "luke"
           ];
         };
