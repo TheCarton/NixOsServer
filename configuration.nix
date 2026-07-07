@@ -20,6 +20,16 @@ in
     ./hardware-configuration.nix
   ];
 
+  services.syncthing = {
+    enable = true;
+    user = "admin";
+    group = "users";
+    dataDir = "/home/admin/syncthing_data"; # where syncthing stores its state
+    configDir = "/home/admin/.config/syncthing";
+    openDefaultPorts = true;
+    guiAddress = "0.0.0.0:8384";
+  };
+
   # installed software
   environment.systemPackages = with pkgs; [
     cfssl # Cloudflare for Copyparty.
@@ -320,6 +330,7 @@ in
       3923 # Copyparty
       3945 # Copyparty
       3990 # Copyparty
+      8384 # Syncthing
     ];
     allowedTCPPortRanges = [
       {
