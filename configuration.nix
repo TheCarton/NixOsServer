@@ -23,7 +23,25 @@ in
       hostname = "vikunja.cartonofdoom.win";
       inherit unstable;
     })
+    ./dynamic_dns.nix
   ];
+
+  services.dynamicDns = {
+    enable = true;
+    user = "admin";
+    domains = {
+      cartonofdoom = {
+        script = "/etc/dynamic_dns_scripts/cartonofdoom_overwrite_dns.sh";
+      };
+      lukevandermale = {
+        script = "/etc/dynamic_dns_scripts/lukevandermale_overwrite_dns.sh";
+      };
+      parvaazgodara_site = {
+        script = "/etc/dynamic_dns_scripts/parvaazgodara_overwrite_dns.sh";
+        interval = "15min";
+      };
+    };
+  };
 
   services.syncthing = {
     enable = true;
