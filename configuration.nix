@@ -315,12 +315,6 @@ in
     "flakes"
   ];
 
-  services.jellyseerr = {
-    enable = true;
-    port = 5055;
-    openFirewall = true;
-  };
-
   virtualisation.docker.enable = true;
 
   # never sleep
@@ -346,7 +340,7 @@ in
       8990 # Sonarr Anime
       7878 # Radarr
       7879 # Radarr
-      5055 # Jellyseerr
+      5055 # Seerr
       8080 # SABnzbd
       6767 # Bazarr
       3921 # Copyparty
@@ -411,7 +405,7 @@ in
         '';
       };
 
-      "jellyseerr.cartonofdoom.win" = {
+      "seerr.cartonofdoom.win" = {
         forceSSL = true;
         enableACME = true;
         locations."/" = {
