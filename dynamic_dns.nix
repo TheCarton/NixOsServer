@@ -23,6 +23,10 @@ let
         ExecStart = "${pkgs.bash}/bin/bash ${domainCfg.script}";
         User = cfg.user;
       };
+      path = [
+        pkgs.curl
+        pkgs.jq
+      ];
     };
   };
 

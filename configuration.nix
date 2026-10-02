@@ -334,8 +334,8 @@ in
 
   networking.firewall = {
     allowedTCPPorts = [
-      8096
-      8920 # Web frontend
+      8096 # Jellyfin HTTP
+      8920 # Jellyfin HTTPS
       80
       443
       9091
