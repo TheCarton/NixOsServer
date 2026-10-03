@@ -60,7 +60,6 @@ in
     nvtopPackages.nvidia
     dysk
     ripgrep
-    hugo
     dua
     vpl-gpu-rt
     intel-gpu-tools
@@ -287,26 +286,18 @@ in
     autosave-interval = 15; # Save every 15 minutes
   };
 
-  # 1. enable vaapi on OS-level
-  nixpkgs.config.packageOverrides = pkgs: {
-    vaapiIntel = pkgs.vaapiIntel.override { enableHybridCodec = true; };
-  };
-
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       intel-media-driver
-      intel-vaapi-driver # previously vaapiIntel
-      vaapiVdpau
-      intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
-      vpl-gpu-rt
-      intel-media-sdk # QSV up to 11th gen
+      intel-vaapi-driver # For older processors. LIBVA_DRIVER_NAME=i965      intel-compute-runtime # OpenCL filter support (hardware tonemapping and subtitle burn-in)
     ];
   };
 
   environment.sessionVariables = {
     # define flake directory for nh (from vimjoyer vid)
-    FLAKE = "/etc/nixos";
+    LIBVA_DRIVER_NAME = "iHD";
+    NH_FLAKE = "/etc/nixos";
   };
 
   # Enable the Flakes feature and the accompanying new nix command-line tool
@@ -503,6 +494,14 @@ in
     enable = true;
     user = "admin";
     package = unstable.jellyfin;
+  };
+
+  services.seerr = {
+    enable = true;
+    user = "admin";
+    package = unstable.seerr;
+    port = 5055;
+    openFirewall = true;
   };
 
   # Enable the OpenSSH daemon.

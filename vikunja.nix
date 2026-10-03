@@ -13,7 +13,7 @@
     package = unstable.vikunja;
     enable = true;
     # Nginx proxy will handle SSL encryption for us
-    frontendScheme = "http";
+    frontendScheme = "https";
     frontendHostname = hostname;
     port = port;
     settings = {
@@ -32,7 +32,6 @@
         # made with the long param set, the token returned will be valid for this period.
         jwtttllong = 25920000;
         maxitemsperpage = 100;
-        publicurl = "https://vikunja.cartonofdoom.win";
       };
     };
   };
