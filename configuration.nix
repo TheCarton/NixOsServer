@@ -498,7 +498,6 @@ in
 
   services.seerr = {
     enable = true;
-    user = "admin";
     package = unstable.seerr;
     port = 5055;
     openFirewall = true;
