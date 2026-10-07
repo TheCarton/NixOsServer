@@ -55,6 +55,7 @@ in
 
   # installed software
   environment.systemPackages = with pkgs; [
+    hugo
     cfssl # Cloudflare for Copyparty.
     certmgr # I think this took care of a warning message about not being able to access cfssl from Copyparty.
     nvtopPackages.nvidia
@@ -368,6 +369,13 @@ in
     recommendedTlsSettings = true;
 
     virtualHosts = {
+      "www.parvaazgodara.com" = {
+        serverAliases = [ "parvaazgodara.com" ];
+        enableACME = true;
+        forceSSL = true;
+        root = "/var/www/parvaaz";
+      };
+
       "static.cartonofdoom.win" = {
         forceSSL = true;
         enableACME = true;
