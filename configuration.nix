@@ -24,6 +24,7 @@ in
       inherit unstable;
     })
     ./dynamic_dns.nix
+    ./cockpit.nix
   ];
 
   services.dynamicDns = {
@@ -90,7 +91,7 @@ in
     # the user to run the service as
     user = "copyparty";
     # the group to run the service as
-    group = "copyparty";
+    group = "users";
     # directly maps to values in the [global] section of the copyparty config.
     # see `copyparty --help` for available options
     settings = {
@@ -183,7 +184,37 @@ in
           https-only = true;
         };
       };
+
+      "/pg_website/" = {
+        # share the contents of "/srv/copyparty"
+        path = "/home/admin/Documents/parvaaz_website/content";
+        # see `copyparty --help-accounts` for available options
+        access = {
+          # users get read-write
+          rwd = [
+            "luke"
+            "pg"
+          ];
+        };
+        # see `copyparty --help-flags` for available options
+        flags = {
+          # "fk" enables filekeys (necessary for upget permission) (4 chars long)
+          fk = 4;
+          # scan for new files every 60sec
+          scan = 60;
+          # volflag "e2d" enables the uploads database
+          e2d = true;
+          # "d2t" disables multimedia parsers (in case the uploads are malicious)
+          d2t = true;
+          # skips hashing file contents if path matches *.iso
+          nohash = "\.iso$";
+          https-only = true;
+          chmod_f = "664";
+          chmod_d = "775";
+        };
+      };
     };
+
     # you may increase the open file limit for the process
     openFilesLimit = 8192;
   };
