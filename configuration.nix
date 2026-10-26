@@ -424,15 +424,15 @@ in
         locations."/" = {
           proxyPass = "http://localhost:8096";
         };
-        extraConfig = ''
-          ## The default `client_max_body_size` is 1M, this might not be enough for some posters, etc.
-          client_max_body_size 20M;
-            
-          # Security / XSS Mitigation Headers
-          # NOTE: X-Frame-Options may cause issues with the webOS app
-          add_header X-Frame-Options \"SAMEORIGIN\";
-          add_header X-Content-Type-Options \"nosniff\";
-        '';
+        # extraConfig = ''
+        #   ## The default `client_max_body_size` is 1M, this might not be enough for some posters, etc.
+        #   client_max_body_size 20M;
+
+        #   # Security / XSS Mitigation Headers
+        #   # NOTE: X-Frame-Options may cause issues with the webOS app
+        #   add_header X-Frame-Options \"SAMEORIGIN\";
+        #   add_header X-Content-Type-Options \"nosniff\";
+        # '';
       };
 
       "seerr.cartonofdoom.win" = {
@@ -533,6 +533,7 @@ in
     enable = true;
     user = "admin";
     package = unstable.jellyfin;
+    openFirewall = true;
   };
 
   services.seerr = {
